@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-white/10;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #07100e;
+  }
+
+  body {
+    @apply bg-ink-950 text-cream-100 font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: #f0a92c;
+    color: #07100e;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #07100e;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1c3730;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #166058;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .grain-overlay {
+    @apply pointer-events-none absolute inset-0 bg-grain;
+    mix-blend-mode: overlay;
+  }
+
+  .section-label {
+    @apply inline-flex items-center gap-3 text-[11px] font-medium uppercase tracking-widest2 text-gold-400;
+  }
+
+  .section-label::before {
+    content: '';
+    @apply block h-px w-6 bg-gold-500/70;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2.5 rounded-full bg-gold-500 px-7 py-3.5 text-[13px] font-semibold uppercase tracking-widest text-ink-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-gold-400 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_0_0_1px_rgba(240,169,44,0.4),0_18px_40px_-12px_rgba(240,169,44,0.55)] active:translate-y-0 active:scale-[0.98];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center gap-2.5 rounded-full border border-cream-100/25 bg-white/[0.02] px-7 py-3.5 text-[13px] font-semibold uppercase tracking-widest text-cream-100 backdrop-blur-sm transition-all duration-300 ease-out hover:border-cream-100/60 hover:bg-white/[0.06] hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 text-[12px] font-medium uppercase tracking-widest text-cream-200/80 transition-colors duration-300 hover:text-gold-400;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}
