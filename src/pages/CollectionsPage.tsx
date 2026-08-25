@@ -8,8 +8,13 @@ import { CollectionStory } from '../components/collections/CollectionStory'
 import { EngineeringDetail } from '../components/collections/EngineeringDetail'
 import { FinalCTA } from '../components/FinalCTA'
 import { Footer } from '../components/Footer'
+import { useDocumentMeta } from '../hooks/useDocumentMeta'
 
 export function CollectionsPage() {
+  useDocumentMeta(
+    'Luxury Recliner Collections | Climate Craft',
+    'Explore Climate Craft\'s three collections — Climate Smart, Motorised Comfort and Classic — engineered and handcrafted in Europe.',
+  )
   const [active, setActive] = useState(0)
   const gridRef = useRef<HTMLDivElement>(null)
 

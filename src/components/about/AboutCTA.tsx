@@ -19,19 +19,24 @@ export function AboutCTA() {
         </Reveal>
         <Reveal delay={0.08}>
           <h2 className="mt-5 font-display text-3xl font-normal leading-[1.1] text-cream-100 sm:text-4xl lg:text-[2.9rem]">
-            Let's create comfort <span className="italic text-gold-400">around the way you live.</span>
+            Bring us your <span className="italic text-gold-400">range.</span>
           </h2>
         </Reveal>
         <Reveal delay={0.16}>
           <p className="mx-auto mt-4 max-w-md text-[15px] leading-relaxed text-cream-200/70">
-            Explore the Climate Craft collection or speak with us about the right seating experience for your space.
+            Climate Craft works with manufacturers, galleries, interior houses and trade partners — from a single
+            bespoke piece to a full white-labelled range.
           </p>
         </Reveal>
 
         <Reveal delay={0.24}>
-          <div className="mt-9">
+          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
             <Link to="/contact" className="group btn-primary">
               Request a Quote
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+            <Link to="/collections" className="group btn-outline">
+              View the Collection
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
           </div>

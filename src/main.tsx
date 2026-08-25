@@ -4,12 +4,15 @@ import { BrowserRouter } from 'react-router-dom'
 import { MotionConfig } from 'framer-motion'
 import './index.css'
 import App from './App'
+import { Preloader } from './components/Preloader'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <MotionConfig reducedMotion="user">
-        <App />
+        <Preloader>
+          <App />
+        </Preloader>
       </MotionConfig>
     </BrowserRouter>
   </StrictMode>,

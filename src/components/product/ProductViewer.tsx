@@ -81,7 +81,7 @@ export function ProductViewer({ images, alt }: ProductViewerProps) {
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', onKey)
-      document.body.style.overflow = ''
+      document.body.style.removeProperty('overflow')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [expanded, zoomed])

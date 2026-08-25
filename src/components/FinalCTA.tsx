@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { ArrowRight, MessageCircle } from 'lucide-react'
 import { contact, whatsappHref } from '../lib/assets'
 import { Reveal } from './ui/Reveal'
@@ -34,13 +35,10 @@ export function FinalCTA() {
 
         <Reveal delay={0.24}>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <a
-              href={`mailto:${contact.email}?subject=${encodeURIComponent('Quote request — Climate Craft')}`}
-              className="group btn-primary"
-            >
+            <Link to="/contact" className="group btn-primary">
               Request a Quote
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </a>
+            </Link>
             <a
               href={whatsappHref("Hi Climate Craft, I'd like to talk about a bespoke piece.")}
               target="_blank"

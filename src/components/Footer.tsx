@@ -1,7 +1,13 @@
-import { Link } from 'react-router-dom'
-import { Instagram, Linkedin, Youtube } from 'lucide-react'
+import { useCallback } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Instagram, Facebook, Twitter } from 'lucide-react'
 import { brand, contact } from '../lib/assets'
+import { socialLinks } from '../data/siteConfig'
 import { Reveal } from './ui/Reveal'
+
+// Legal pages are real routes, not hash links — they need React Router <Link>
+// so client-side navigation works and the browser never falls back to the
+// wildcard → HomePage catch-all.
 
 // Real routes where the destination is its own page, "/#hash" where it's a
 // specific Home-page section (works from any page — Home scrolls to the hash
@@ -16,22 +22,41 @@ const FOOTER_LINKS: Record<string, { label: string; to: string }[]> = {
   Company: [
     { label: 'About Us', to: '/about' },
     { label: 'Our Process', to: '/#mechanics' },
-    { label: 'Request a Quote', to: '/#final-cta' },
+    { label: 'Request a Quote', to: '/contact' },
   ],
   Support: [
-    { label: 'FAQs', to: '/#final-cta' },
+    { label: 'FAQs', to: '/about#faq' },
     { label: 'Care & Warranty', to: '/#why-climate-craft' },
   ],
 }
 
 const SOCIAL = [
-  { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-  { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-  { icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
+  { icon: Instagram, href: socialLinks.instagram, label: 'Instagram' },
+  { icon: Facebook, href: socialLinks.facebook, label: 'Facebook' },
+  { icon: Twitter, href: socialLinks.twitter, label: 'Twitter' },
 ]
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleHashLink = useCallback(
+    (to: string) => (e: React.MouseEvent) => {
+      const hashIndex = to.indexOf('#')
+      if (hashIndex === -1) return
+      const path = to.slice(0, hashIndex) || '/'
+      const hash = to.slice(hashIndex)
+
+      e.preventDefault()
+      if (location.pathname === path) {
+        document.querySelector(hash)?.scrollIntoView({ behavior: 'smooth' })
+      } else {
+        navigate(to)
+      }
+    },
+    [location.pathname, navigate],
+  )
 
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-ink-950">
@@ -77,12 +102,22 @@ export function Footer() {
                 <ul className="mt-5 flex flex-col gap-3">
                   {links.map((link) => (
                     <li key={link.label}>
-                      <Link
-                        to={link.to}
-                        className="inline-block text-[13px] text-cream-200/55 transition-all duration-300 hover:translate-x-1 hover:text-gold-400"
-                      >
-                        {link.label}
-                      </Link>
+                      {link.to.includes('#') ? (
+                        <a
+                          href={link.to}
+                          onClick={handleHashLink(link.to)}
+                          className="inline-block text-[13px] text-cream-200/55 transition-all duration-300 hover:translate-x-1 hover:text-gold-400"
+                        >
+                          {link.label}
+                        </a>
+                      ) : (
+                        <Link
+                          to={link.to}
+                          className="inline-block text-[13px] text-cream-200/55 transition-all duration-300 hover:translate-x-1 hover:text-gold-400"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -115,12 +150,15 @@ export function Footer() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-7 sm:flex-row sm:mt-16">
           <p className="text-[12px] text-cream-200/40">© 2009–{year} Climate Craft. All rights reserved.</p>
           <div className="flex items-center gap-6 text-[12px] text-cream-200/40">
-            <a href="#" className="transition-colors duration-300 hover:text-cream-200/70">
+            <Link to="/privacy-policy" className="transition-colors duration-300 hover:text-cream-200/70">
               Privacy Policy
-            </a>
-            <a href="#" className="transition-colors duration-300 hover:text-cream-200/70">
+            </Link>
+            <Link to="/terms-and-conditions" className="transition-colors duration-300 hover:text-cream-200/70">
               Terms &amp; Conditions
-            </a>
+            </Link>
+            <Link to="/cookie-policy" className="transition-colors duration-300 hover:text-cream-200/70">
+              Cookie Policy
+            </Link>
           </div>
         </div>
       </div>

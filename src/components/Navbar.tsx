@@ -32,9 +32,13 @@ export function Navbar() {
   })
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.removeProperty('overflow')
+    }
     return () => {
-      document.body.style.overflow = ''
+      document.body.style.removeProperty('overflow')
     }
   }, [open])
 
@@ -86,7 +90,7 @@ export function Navbar() {
 
           <div className="hidden shrink-0 lg:block">
             <Link
-              to="/#final-cta"
+              to="/contact"
               className="group inline-flex items-center gap-1.5 rounded-full bg-gold-500 px-5 py-2.5 text-[12px] font-semibold uppercase tracking-widest text-ink-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] transition-all duration-300 hover:bg-gold-400 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_10px_28px_-10px_rgba(240,169,44,0.65)] active:scale-[0.97]"
             >
               Request Quote
@@ -140,7 +144,7 @@ export function Navbar() {
                   </MotionLink>
                 ))}
                 <Link
-                  to="/#final-cta"
+                  to="/contact"
                   className="mt-3 inline-flex items-center justify-center gap-1.5 rounded-full bg-gold-500 px-5 py-3 text-[12px] font-semibold uppercase tracking-widest text-ink-950"
                 >
                   Request Quote

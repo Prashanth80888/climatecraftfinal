@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, ChevronDown } from 'lucide-react'
 import { brand } from '../lib/assets'
+import { useIntroComplete } from '../context/IntroContext'
 
 const easeOut: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
@@ -12,7 +14,7 @@ const headline = [
 ]
 
 const trustMarks = [
-  '10-Year Mechanism Warranty',
+  '2-Year Warranty',
   'Handcrafted in Europe',
   'Bespoke for Your Space',
   'Quoted, Never Priced',
@@ -22,6 +24,11 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
+  // The preloader masks this section on first load; its own mount-time timers
+  // would otherwise finish silently behind the mask, so every entrance below
+  // is gated to start only once the preloader hands off — one continuous
+  // reveal instead of two stacked intros.
+  const introComplete = useIntroComplete()
 
   const videoScale = useTransform(scrollYProgress, [0, 1], [1, 1.18])
   const videoY = useTransform(scrollYProgress, [0, 1], ['0%', '14%'])
@@ -54,7 +61,7 @@ export function Hero() {
     >
       <motion.div
         initial={{ scale: 1.06, opacity: 0.6 }}
-        animate={{ scale: 1, opacity: 1 }}
+        animate={introComplete ? { scale: 1, opacity: 1 } : { scale: 1.06, opacity: 0.6 }}
         transition={{ duration: 1.8, ease: easeOut }}
         className="absolute inset-0"
       >
@@ -101,7 +108,7 @@ export function Hero() {
       >
         <motion.span
           initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
           transition={{ duration: 0.8, delay: 0.3, ease: easeOut }}
           className="section-label mb-6"
         >
@@ -113,7 +120,7 @@ export function Hero() {
             <motion.span
               key={line.text}
               initial={{ opacity: 0, y: '100%' }}
-              animate={{ opacity: 1, y: '0%' }}
+              animate={introComplete ? { opacity: 1, y: '0%' } : { opacity: 0, y: '100%' }}
               transition={{ duration: 1, delay: 0.45 + i * 0.14, ease: easeOut }}
               className={`block overflow-hidden ${line.accent ? 'italic text-gold-400' : ''}`}
             >
@@ -124,7 +131,7 @@ export function Hero() {
 
         <motion.p
           initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.9, delay: 0.95, ease: easeOut }}
           className="mt-7 max-w-md text-[15px] leading-relaxed text-cream-200/75 sm:text-base"
         >
@@ -134,26 +141,19 @@ export function Hero() {
 
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={introComplete ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.9, delay: 1.1, ease: easeOut }}
           className="mt-9 flex flex-wrap items-center gap-4"
         >
-          <a
-            href="#collections"
-            onClick={(e) => {
-              e.preventDefault()
-              document.querySelector('#collections')?.scrollIntoView({ behavior: 'smooth' })
-            }}
-            className="group btn-primary"
-          >
+          <Link to="/collections" className="group btn-primary">
             View the Collection
             <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={introComplete ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 1, delay: 1.35 }}
           className="mt-12 flex flex-wrap gap-x-8 gap-y-3 border-t border-white/10 pt-6 sm:mt-14 lg:gap-x-10"
         >
@@ -167,7 +167,7 @@ export function Hero() {
 
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={introComplete ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 1, delay: 1.6 }}
         className="absolute bottom-6 right-6 z-10 hidden flex-col items-center gap-2 sm:flex lg:right-10"
       >

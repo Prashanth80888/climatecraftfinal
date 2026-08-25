@@ -1,3 +1,5 @@
+import { addressSingleLine } from '../data/siteConfig'
+
 export const productImage = (key: string) => `/images/products/${key}.jpeg`
 
 /** Hero photo for a Home-page product (see src/data/homeProducts.ts). */
@@ -30,8 +32,8 @@ export const brand = {
 export const contact = {
   phoneDisplay: '+91 76193 43762',
   phoneHref: '917619343762',
-  email: 'hello@climatecraft.co',
-  address: 'Scheldekaai 42, 2000 Antwerp, Belgium',
+  email: 'climatecrafttechnology@gmail.com',
+  address: addressSingleLine,
   showrooms: 'Milan & New York',
 }
 

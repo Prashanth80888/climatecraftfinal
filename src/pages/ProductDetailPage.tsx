@@ -17,11 +17,17 @@ import { Reveal } from '../components/ui/Reveal'
 import { FinalCTA } from '../components/FinalCTA'
 import { Footer } from '../components/Footer'
 import { ComingSoon } from './ComingSoon'
+import { useDocumentMeta } from '../hooks/useDocumentMeta'
 
 export function ProductDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const product = getProductBySlug(slug)
   const [mode, setMode] = useState<ViewerMode>('3d')
+
+  useDocumentMeta(
+    product ? `${product.name} | Climate Craft` : 'Product — Climate Craft',
+    product?.description?.slice(0, 155) ?? 'Explore this Climate Craft motion furniture product — engineered and handcrafted in Europe.',
+  )
 
   // Every product gets a clean arrival: back to the 360° hero view, scrolled to top —
   // never leaking the previous product's mode, image index or scroll position.
@@ -126,15 +132,10 @@ export function ProductDetailPage() {
                     </p>
 
                     <div className="mt-8 flex flex-wrap items-center gap-4">
-                      <a
-                        href={`mailto:hello@climatecraft.co?subject=${encodeURIComponent(
-                          `Quote request — ${product.name}`,
-                        )}`}
-                        className="group btn-primary"
-                      >
+                      <Link to={`/contact?product=${product.slug}`} className="group btn-primary">
                         Request a Quote
                         <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                      </a>
+                      </Link>
                       <a
                         href={whatsappHref(`Hi Climate Craft, I'd like to ask about ${product.name}.`)}
                         target="_blank"
